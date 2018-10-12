@@ -98,7 +98,7 @@ TEST(TMatrix, assign_operator_change_matrix_size)
 
 	m2 = m1;
 
-	EXPECT_EQ(m2.GetSize(), 5);
+	EXPECT_EQ(m2.GetSize(), m1.GetSize());
 }
 
 TEST(TMatrix, can_assign_matrices_of_different_size)
@@ -141,13 +141,19 @@ TEST(TMatrix, matrices_with_different_size_are_not_equal)
 
 TEST(TMatrix, can_add_matrices_with_equal_size)
 {
-	TMatrix<int> m1(5), m2(5);
+	TMatrix<int> m1(5), m2(5), m3;
+	for (int i = 0; i < 5; i++)
+		for (int j = i; j < 5; j++)
+		{
+			m1[i][j] = i;
+			m2[i][j] = i;
+		}
+	m3 = m1 + m2;
+	for (int i = 0; i < 5; i++)
+		for (int j = i; j < 5; j++)
+			m1[i][j] = 2 * i;
 
-	m1[1][2] = 5;
-
-	m2[1][2] = 5;
-
-	ASSERT_NO_THROW(m1 + m2);
+	EXPECT_EQ(m3, m1);
 }
 
 TEST(TMatrix, cant_add_matrices_with_not_equal_size)
@@ -159,13 +165,19 @@ TEST(TMatrix, cant_add_matrices_with_not_equal_size)
 
 TEST(TMatrix, can_subtract_matrices_with_equal_size)
 {
-	TMatrix<int> m1(5), m2(5);
+	TMatrix<int> m1(5), m2(5), m3;
+	for (int i = 0; i < 5; i++)
+		for (int j = i; j < 5; j++)
+		{
+			m1[i][j] = i;
+			m2[i][j] = i;
+		}
+	m3 = m1 - m2;
+	for (int i = 0; i < 5; i++)
+		for (int j = i; j < 5; j++)
+			m1[i][j] = 0;
 
-	m1[1][2] = 5;
-
-	m2[1][2] = 3;
-
-	ASSERT_NO_THROW(m1 - m2);
+	EXPECT_EQ(m3, m1);
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)

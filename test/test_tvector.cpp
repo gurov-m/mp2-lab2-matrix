@@ -140,38 +140,71 @@ TEST(TVector, vectors_with_different_size_are_not_equal)
 
 TEST(TVector, can_add_scalar_to_vector)
 {
-	TVector<int> v(4);
+	TVector<int> v1(7, 0), v2;
 
-	v = v + 4;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+	}
+	v2 = v1 + 2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i + 2;
+	}
 
-	EXPECT_EQ(4, v[0]);
+	EXPECT_EQ(v1, v2);
 }
 
 TEST(TVector, can_subtract_scalar_from_vector)
 {
-	TVector<int> v(4);
+	TVector<int> v1(4, 0), v2;
 
-	v[3] = 6;
-	v = v - 4;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+	}
+	v2 = v1 - 2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i - 2;
+	}
 
-	EXPECT_EQ(2, v[3]);
+	EXPECT_EQ(v1, v2);
+	
 }
 
 TEST(TVector, can_multiply_scalar_by_vector)
 {
-	TVector<int> v(4);
+	TVector<int> v1(4, 0), v2;
 
-	v[1] = 2;
-	v = v * 2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+	}
+	v2 = v1 * 2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i * 2;
+	}
 
-	EXPECT_EQ(4, v[1]);
+	EXPECT_EQ(v1, v2);
 }
 
 TEST(TVector, can_add_vectors_with_equal_size)
 {
-	TVector<int> v(4), g(4);
+	TVector<int> v1(5), v2(5), v3;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+		v2[i] = i;
+	}
+	v3 = v1 + v2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = 2 * i;
+	}
 
-	ASSERT_NO_THROW(v + g);
+	EXPECT_EQ(v3, v1);
 }
 
 TEST(TVector, cant_add_vectors_with_not_equal_size)
@@ -183,9 +216,19 @@ TEST(TVector, cant_add_vectors_with_not_equal_size)
 
 TEST(TVector, can_subtract_vectors_with_equal_size)
 {
-	TVector<int> v(4), g(4);
+	TVector<int> v1(5), v2(5), v3;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+		v2[i] = i;
+	}
+	v3 = v1 - v2;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = 0;
+	}
 
-	ASSERT_NO_THROW(v - g);
+	EXPECT_EQ(v3, v1);
 }
 
 TEST(TVector, cant_subtract_vectors_with_not_equal_size)
@@ -197,9 +240,16 @@ TEST(TVector, cant_subtract_vectors_with_not_equal_size)
 
 TEST(TVector, can_multiply_vectors_with_equal_size)
 {
-	TVector<int> v(4), g(4);
+	TVector<int> v1(5), v2(5);
+	int res = 0;
+	for (int i = 0; i < v1.GetSize(); i++)
+	{
+		v1[i] = i;
+		v2[i] = i;
+	}
+	res = v1 * v2;
 
-	ASSERT_NO_THROW(v * g);
+	EXPECT_EQ(30, res);
 }
 
 TEST(TVector, cant_multiply_vectors_with_not_equal_size)
